@@ -13,12 +13,12 @@ export default function Home({ pizzaList, admin }) {
   return (
     <div className={styles.container}>
       <Head>
-        <title>GWENS SHAWARMA</title>
+        <title>GWENS SHA</title>
         <meta name="description" content="Best pizza shop in town" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Featured />
-      {admin && <AddButton setClose={setClose} />}
+      {<AddButton setClose={setClose} />}
       <PizzaList pizzaList={pizzaList} />
       {!close && <Add setClose={setClose} />}
     </div>
@@ -33,12 +33,12 @@ export const getServerSideProps = async (ctx) => {
     admin = true;
   }
 
-  const { data } = await axios.get(
-    "https://gwens-shawarma.vercel.app/products"
+  const res = await axios.get(
+    "https://gwens-shawarma.vercel.app/api/products"
   );
   return {
     props: {
-      pizzaList: data,
+      pizzaList: res.data,
       admin,
     },
   };
