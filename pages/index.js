@@ -33,8 +33,8 @@ export const getServerSideProps = async (ctx) => {
     admin = true;
   }
 
-  const {data} = await axios.get(
-    "http://localhost:3000/api/products"
+  const { data } = await axios.get(
+    "https://gwens-shawarma.vercel.app/products"
   );
   return {
     props: {
