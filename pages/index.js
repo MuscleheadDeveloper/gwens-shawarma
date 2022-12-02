@@ -35,7 +35,7 @@ export const getServerSideProps = async (ctx) => {
   }
 
   const { data } = await axios.get(
-    `https://gwens-shawarma.vercel.app/products`
+    `https://gwens-shawarma.vercel.app/api/products`
   );
   return {
     props: {
