@@ -18,7 +18,8 @@ export default function Home({ pizzaList, admin }) {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Featured />
-      {<AddButton setClose={setClose} />}
+      {admin && <AddButton setClose={setClose} />}
+
       <PizzaList pizzaList={pizzaList} />
       {!close && <Add setClose={setClose} />}
     </div>
@@ -33,10 +34,10 @@ export const getServerSideProps = async (ctx) => {
     admin = true;
   }
 
-  const res = await axios.get(`https://localhost:3000/api/products`);
+  const { data } = await axios.get(`https://localhost:3000/api/products`);
   return {
     props: {
-      pizzaList: res.data,
+      pizzaList: data,
       admin,
     },
   };
