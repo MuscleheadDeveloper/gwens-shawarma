@@ -5,6 +5,7 @@ import Link from "next/link";
 
 const Navbar = () => {
   const quantity = useSelector((state) => state.cart.quantity);
+  const phone = "08101592754"
   return (
     <div className={styles.container}>
       <div className={styles.item}>
@@ -13,7 +14,11 @@ const Navbar = () => {
         </div>
         <div className={styles.texts}>
           <div className={styles.text}>ORDER NOW!</div>
-          <div className={styles.text}>012 345 678</div>
+
+          <a href={`tel:${phone}`}>
+            {" "}
+            <div className={styles.text}>012 345 678</div>{" "}
+          </a>
         </div>
       </div>
       <div className={styles.item}>
@@ -21,11 +26,8 @@ const Navbar = () => {
           <Link href="/" passHref>
             <li className={styles.listItem}>Homepage</li>
           </Link>
-          <li className={styles.listItem}>Products</li>
           <li className={styles.listItem}>Menu</li>
           <Image src="/img/logo.png" alt="" width="160px" height="69px" />
-          <li className={styles.listItem}>Events</li>
-          <li className={styles.listItem}>Blog</li>
           <li className={styles.listItem}>Contact</li>
         </ul>
       </div>
