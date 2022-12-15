@@ -2,11 +2,7 @@ import styles from "../styles/Cart.module.css";
 import Image from "next/image";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
-import {
-  PayPalScriptProvider,
-  PayPalButtons,
-  usePayPalScriptReducer,
-} from "@paypal/react-paypal-js";
+import { PaystackButton } from "react-paystack";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { reset } from "../redux/cartSlice";
@@ -17,17 +13,20 @@ const Cart = () => {
   const [open, setOpen] = useState(false);
   const [cash, setCash] = useState(false);
   const amount = cart.total;
-  const currency = "USD";
   const style = { layout: "vertical" };
   const dispatch = useDispatch();
   const router = useRouter();
 
+  // const config = {
+  //   reference: new Date().getTime().toString(),
+  //   email: "user@example.com",
+  //   amount: amount, //in kobo
+  //   publicKey: "pk-nvdr",
+  // };
+
   const createOrder = async (data) => {
     try {
-      const res = await axios.post(
-        "https://gwens-shawarma.vercel.app/api/orders",
-        data
-      );
+      const res = await axios.post("http://localhost:3000/api/orders", data);
       if (res.status === 201) {
         dispatch(reset());
         router.push(`/orders/${res.data._id}`);
@@ -37,63 +36,30 @@ const Cart = () => {
     }
   };
 
-  // Custom component to wrap the PayPalButtons and handle currency changes
-  const ButtonWrapper = ({ currency, showSpinner }) => {
-    // usePayPalScriptReducer can be use only inside children of PayPalScriptProviders
-    // This is the main reason to wrap the PayPalButtons in a new component
-    const [{ options, isPending }, dispatch] = usePayPalScriptReducer();
+  // const handlePaystackSuccessAction = (reference) => {
+  //   {
+  //     showSpinner && isPending && <div className="spinner" />;
+  //   }
+  //   // Implementation for whatever you want to do with reference and after success call.
+  //   createOrder({
+  //     customer: shipping.name.full_name,
+  //     address: shipping.address.address_line_1,
+  //     total: cart.total,
+  //     method: 1,
+  //   });
+  // };
 
-    useEffect(() => {
-      dispatch({
-        type: "resetOptions",
-        value: {
-          ...options,
-          currency: currency,
-        },
-      });
-    }, [currency, showSpinner]);
+  // const handlePaystackCloseAction = () => {
+  //   // implementation for  whatever you want to do when the Paystack dialog closed.
+  //   console.log("closed");
+  // };
 
-    return (
-      <>
-        {showSpinner && isPending && <div className="spinner" />}
-        <PayPalButtons
-          style={style}
-          disabled={false}
-          forceReRender={[amount, currency, style]}
-          fundingSource={undefined}
-          createOrder={(data, actions) => {
-            return actions.order
-              .create({
-                purchase_units: [
-                  {
-                    amount: {
-                      currency_code: currency,
-                      value: amount,
-                    },
-                  },
-                ],
-              })
-              .then((orderId) => {
-                // Your code here after create the order
-                return orderId;
-              });
-          }}
-          onApprove={function (data, actions) {
-            return actions.order.capture().then(function (details) {
-              const shipping = details.purchase_units[0].shipping;
-              createOrder({
-                customer: shipping.name.full_name,
-                address: shipping.address.address_line_1,
-                total: cart.total,
-                method: 1,
-              });
-            });
-          }}
-        />
-      </>
-    );
-  };
-
+  // const componentProps = {
+  //   ...config,
+  //   text: "Paystack Button Implementation",
+  //   onSuccess: (reference) => handlePaystackSuccessAction(reference),
+  //   onClose: handlePaystackCloseAction,
+  // };
   return (
     <div className={styles.container}>
       <div className={styles.left}>
@@ -167,17 +133,8 @@ const Cart = () => {
               >
                 CASH ON DELIVERY
               </button>
-              <PayPalScriptProvider
-                options={{
-                  "client-id":
-                    "ATTL8fDJKfGzXNH4VVuDy1qW4_Jm8S0sqmnUTeYtWpqxUJLnXIn90V8YIGDg-SNPaB70Hg4mko_fde4-",
-                  components: "buttons",
-                  currency: "USD",
-                  "disable-funding": "credit,card,p24",
-                }}
-              >
-                <ButtonWrapper currency={currency} showSpinner={false} />
-              </PayPalScriptProvider>
+
+              <PaystackButton showSpinner={false} {...componentProps} />
             </div>
           ) : (
             <button onClick={() => setOpen(true)} className={styles.button}>

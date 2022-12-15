@@ -14,7 +14,7 @@ export default function Home({ pizzaList, admin }) {
     <div className={styles.container}>
       <Head>
         <title>GWENS SHA</title>
-        <meta name="description" content="Best pizza shop in town" />
+        <meta name="description" content="Best shawarma shop in town" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Featured />
@@ -34,9 +34,7 @@ export const getServerSideProps = async (ctx) => {
     admin = true;
   }
 
-  const { data } = await axios.get(
-    `https://gwens-shawarma.vercel.app/api/products`
-  );
+  const { data } = await axios.get("http://localhost:3000/api/products");
   return {
     props: {
       pizzaList: data,

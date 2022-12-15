@@ -35,7 +35,7 @@ const Product = ({ pizza }) => {
   };
 
   const handleClick = () => {
-    dispatch(addProduct({...pizza, extras, price, quantity}));
+    dispatch(addProduct({ ...pizza, extras, price, quantity }));
   };
 
   return (
@@ -97,7 +97,7 @@ const Product = ({ pizza }) => {
 
 export const getServerSideProps = async ({ params }) => {
   const res = await axios.get(
-    `https://gwens-shawarma.vercel.app/api/products/${params.id}`
+    "http://localhost:3000/api/products/${params.id}"
   );
   return {
     props: {
