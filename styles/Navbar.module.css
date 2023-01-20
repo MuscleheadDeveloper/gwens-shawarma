@@ -80,13 +80,16 @@
     font-weight: bold;
     color: #d1411e;
 }
-
-@media screen and (max-width:480px) {
-  .item:nth-child(2) {
-    display: none;
-  }
+.hamburger{
+  display: none;
+}
+@media screen and (max-width:440px) {
+  
 
   .item:nth-child(1) {
-    flex: 3;
+    flex: 1;
+  }
+  .hamburger{
+display: block;
   }
 }

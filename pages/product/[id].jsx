@@ -97,7 +97,7 @@ const Product = ({ pizza }) => {
 
 export const getServerSideProps = async ({ params }) => {
   const res = await axios.get(
-    `https://gwens-shawarma.vercel.app/api/products/${params.id}`
+    `https://the-best-shawarma.onrender.com/api/products/${params.id}`
   );
   return {
     props: {
