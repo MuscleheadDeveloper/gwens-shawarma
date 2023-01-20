@@ -2,6 +2,7 @@ import React from "react";
 import { bool } from "prop-types";
 import { StyledMenu } from "./Menu.styled";
 import styles from "../../styles/Navbar.module.css";
+import Link from "next/link";
 
 const Menu = ({ navOpen, ...props }) => {
   const isHidden = navOpen ? true : false;
@@ -9,18 +10,18 @@ const Menu = ({ navOpen, ...props }) => {
 
   return (
     <StyledMenu navOpen={navOpen} aria-hidden={!isHidden} {...props}>
-      <a href="/" tabIndex={tabIndex} className={styles.text}>
+      <Link to="/" tabIndex={tabIndex} className={styles.text}>
         <span aria-hidden="true">💁🏻‍♂️</span>
         About us
-      </a>
-      <a href="/" tabIndex={tabIndex} className={styles.text}>
+      </Link>
+      <Link to="/" tabIndex={tabIndex} className={styles.text}>
         <span aria-hidden="true">💸</span>
         Pricing
-      </a>
-      <a href="/" tabIndex={tabIndex} className={styles.text}>
+      </Link>
+      <Link to="/" tabIndex={tabIndex} className={styles.text}>
         <span aria-hidden="true">📩</span>
         Contact
-      </a>
+      </Link>
     </StyledMenu>
   );
 };
